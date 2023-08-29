@@ -44,11 +44,6 @@ func main() {
 			{
 				Name: "apply",
 				Action: func(cCtx *cli.Context) error {
-					fileName = defaultJobDefinitionsFile
-					if cCtx.NArg() > 0 {
-						fileName = cCtx.Args().Get(0)
-					}
-
 					return apply(args{
 						ProjectId:       projectName,
 						ProjectNumber:   projectNumber,
@@ -59,6 +54,12 @@ func main() {
 					})
 				},
 				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:        "file",
+						Usage:       "File Path to jobs.yml file",
+						Destination: &fileName,
+						Value:       defaultJobDefinitionsFile,
+					},
 					&cli.StringFlag{
 						Name:        "project-id",
 						Usage:       "GCP Project ID",
