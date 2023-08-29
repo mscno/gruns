@@ -21,4 +21,3 @@ jobs:
         run: go test -v ./...
       - name: Build
         run: ko build
-
