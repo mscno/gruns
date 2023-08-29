@@ -39,7 +39,7 @@ func (c *service) createRunJob(ctx context.Context, j job) (*runpb.Job, error) {
 		return nil, err
 	}
 
-	log.Info().Msgf("cloud run job created: %s", j.Name)
+	log.Debug().Msgf("creating cloud run job: %s", j.Name)
 
 	return res.Wait(ctx)
 }
@@ -255,7 +255,7 @@ func handleRunJob(c *service, j job) error {
 
 	fieldMask := updateJob(rjob, j)
 	if len(fieldMask) > 0 {
-		log.Info().Msgf("updating job %s with fieldmask %s", j.Name, fieldMask)
+		log.Debug().Msgf("updating job %s with fieldmask %s", j.Name, fieldMask)
 		_, err := c.jobclient.UpdateJob(ctx, &runpb.UpdateJobRequest{Job: rjob})
 		if err != nil {
 			return err
@@ -282,7 +282,7 @@ func deleteRunJobs(c *service, validJobNames []string) error {
 		}
 
 		if !pie.Contains(validJobNames, trimParent(c.parent(), res.Name)) && res.Labels["managed_by"] == tag {
-			log.Info().Msgf("deleting job %s ", res.Name)
+			log.Debug().Msgf("deleting job %s ", res.Name)
 			ops, err := c.jobclient.DeleteJob(ctx, &runpb.DeleteJobRequest{Name: res.Name})
 			if err != nil {
 				return err
