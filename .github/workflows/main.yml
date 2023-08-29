@@ -17,10 +17,8 @@ jobs:
           cache: true
 
       - uses: imjasonh/setup-ko@v0.6
-      - name: Build
-        run: go build -v ./...
       - name: Test
         run: go test -v ./...
-      - name: Push
-        run: |
-          ko build --bare -t latest ./
+      - name: Build
+        run: ko build
+
